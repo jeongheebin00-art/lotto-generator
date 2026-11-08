@@ -2,11 +2,22 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>행운의 로또 추첨기 🍀</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>행운의 로또 추첨기 🩷</title>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jua&family=Quicksand:wght@400;500;600;700&display=swap');
+
+    :root {
+      --pink: #ff73b9;
+      --hot-pink: #ff4fa3;
+      --light-pink: #ffe5f3;
+      --purple: #c9a7ff;
+      --dark: #653b68;
+      --white: #ffffff;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -14,160 +25,344 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #e8f5e9, #f3f8ff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      font-family: 'Jua', sans-serif;
+      color: var(--dark);
+      background:
+        radial-gradient(circle at 15% 15%, #ffffff 0 3px, transparent 4px),
+        radial-gradient(circle at 85% 30%, #ffffff 0 4px, transparent 5px),
+        linear-gradient(135deg, #ffd9ed, #e8dfff 50%, #ffe8f5);
+      background-size: 50px 50px, 70px 70px, cover;
+      padding: 25px 15px 40px;
     }
 
     .container {
       width: 100%;
-      max-width: 600px;
-      background: white;
-      padding: 35px 25px;
-      border-radius: 25px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .header {
       text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      display: inline-block;
+      padding: 7px 18px;
+      border: 2px solid white;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--hot-pink);
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 12px #ff9fce55;
     }
 
     h1 {
-      color: #16834a;
-      margin-bottom: 10px;
+      margin: 15px 0 8px;
+      font-size: clamp(30px, 7vw, 44px);
+      color: #ff4fa3;
+      text-shadow: 3px 3px 0 white, 5px 5px 0 #e7b8ff;
+      line-height: 1.3;
     }
 
     .subtitle {
-      color: #777;
-      margin-bottom: 30px;
+      font-size: 15px;
+      color: #966e9d;
     }
 
-    .lotto-game {
+    .card {
+      background: rgba(255, 255, 255, 0.82);
+      border: 3px solid white;
+      border-radius: 28px;
+      padding: 25px;
+      box-shadow: 0 12px 30px rgba(218, 126, 185, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    .card-title {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin: 15px 0;
-      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    .badge {
+      background: #ffe0f0;
+      color: #ff4fa3;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .games {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .game {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 12px;
+      background: #fff5fb;
+      border: 1px solid #ffd5eb;
+      border-radius: 18px;
+      animation: pop 0.35s ease both;
     }
 
     .game-label {
-      width: 35px;
-      color: #888;
+      flex-shrink: 0;
+      width: 25px;
+      color: #d68fbd;
       font-size: 13px;
+      text-align: center;
+    }
+
+    .numbers {
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+      gap: 5px;
+      min-width: 0;
     }
 
     .ball {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-weight: bold;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      border-radius: 50%;
       color: white;
-      box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.12);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12),
+                  0 3px 5px rgba(0, 0, 0, 0.08);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     }
 
-    .yellow {
-      background: #fbc02d;
+    /* 로또 번호 구간별 공 색상 */
+    .ball.yellow {
+      background: linear-gradient(145deg, #ffe875, #f5b900);
+      color: #6c5200;
     }
 
-    .blue {
-      background: #2196f3;
+    .ball.blue {
+      background: linear-gradient(145deg, #80d5ff, #3997ed);
     }
 
-    .red {
-      background: #f44336;
+    .ball.red {
+      background: linear-gradient(145deg, #ffaaa8, #f15c66);
     }
 
-    .gray {
-      background: #9e9e9e;
+    .ball.gray {
+      background: linear-gradient(145deg, #c8c8d4, #85859a);
     }
 
-    .green {
-      background: #4caf50;
+    .ball.green {
+      background: linear-gradient(145deg, #a8e99d, #43b86a);
+    }
+
+    .button-area {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
     }
 
     button {
-      margin-top: 25px;
-      padding: 16px 30px;
       border: none;
-      border-radius: 30px;
-      background: #16834a;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
       cursor: pointer;
-      transition: 0.2s;
+      font-family: 'Jua', sans-serif;
+      transition: 0.2s ease;
     }
 
     button:hover {
-      background: #106638;
       transform: translateY(-2px);
+      filter: brightness(1.03);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .generate-btn {
+      flex: 1;
+      padding: 17px 15px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ff77bd, #ff4fa3);
+      color: white;
+      font-size: 18px;
+      box-shadow: 0 6px 0 #e83b91;
+    }
+
+    .copy-btn {
+      padding: 17px 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #d8c1ff, #b69aff);
+      color: white;
+      font-size: 16px;
+      box-shadow: 0 6px 0 #9c7de0;
+      white-space: nowrap;
     }
 
     .notice {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #b18cb7;
+      line-height: 1.7;
+    }
+
+    .decoration {
+      text-align: center;
+      font-size: 25px;
+      margin: 20px 0 5px;
+      letter-spacing: 8px;
+    }
+
+    .footer {
+      text-align: center;
       margin-top: 25px;
-      color: #999;
+      color: #b18cb7;
       font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 18px 10px 30px;
+      }
+
+      .card {
+        padding: 18px 12px;
+        border-radius: 23px;
+      }
+
+      .game {
+        gap: 6px;
+        padding: 11px 7px;
+      }
+
+      .game-label {
+        width: 20px;
+        font-size: 12px;
+      }
+
+      .numbers {
+        gap: 3px;
+      }
+
+      .ball {
+        width: clamp(29px, 8vw, 36px);
+        height: clamp(29px, 8vw, 36px);
+        font-size: 13px;
+      }
+
+      .button-area {
+        gap: 8px;
+      }
+
+      .generate-btn {
+        font-size: 16px;
+        padding: 15px 8px;
+      }
+
+      .copy-btn {
+        font-size: 14px;
+        padding: 15px 12px;
+      }
+
+      .card-title {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .ball {
+        width: 27px;
+        height: 27px;
+        font-size: 12px;
+      }
+
+      .game {
+        padding: 9px 5px;
+      }
+
+      .game-label {
+        width: 17px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>🍀 행운의 로또 추첨기</h1>
-    <p class="subtitle">오늘의 행운 번호 5게임을 만나보세요!</p>
+  <main class="container">
 
-    <div id="lottoBoard"></div>
+    <header class="header">
+      <div class="logo">Y2K LUCKY LOTTO ✧</div>
+      <h1>행운의 로또 추첨기 🩷</h1>
+      <p class="subtitle">오늘의 행운 번호를 뽑아보세요!</p>
+    </header>
 
-    <button onclick="generateLotto()">
-      ✨ 로또 번호 5게임 생성하기
-    </button>
+    <section class="card">
+      <div class="card-title">
+        <span>🎀 나의 행운 번호</span>
+        <span class="badge">LOTTO 6/45</span>
+      </div>
 
-    <p class="notice">
-      번호는 무작위로 생성되며 당첨을 보장하지 않습니다.
-    </p>
-  </div>
+      <div class="games" id="games">
+        <!-- 생성된 번호가 표시됩니다 -->
+      </div>
+
+      <div class="button-area">
+        <button class="generate-btn" onclick="generateLotto()">
+          ✨ 번호 5게임 뽑기
+        </button>
+
+        <button class="copy-btn" onclick="copyNumbers()">
+          📋 번호 복사
+        </button>
+      </div>
+
+      <p class="notice" id="notice">
+        버튼을 눌러 5게임의 행운 번호를 생성해 보세요!<br />
+        모든 번호는 무작위로 추첨됩니다.
+      </p>
+    </section>
+
+    <div class="decoration">💖 ✧ 🎀 ✧ 💖</div>
+
+    <footer class="footer">
+      행운은 언제나 당신 곁에 ✨<br />
+      본 번호는 재미를 위한 무작위 추천 번호입니다.
+    </footer>
+
+  </main>
 
   <script>
-    function generateLotto() {
-      const board = document.getElementById("lottoBoard");
-      board.innerHTML = "";
+    let lottoGames = [];
 
-      for (let game = 1; game <= 5; game++) {
-        const numbers = [];
-
-        while (numbers.length < 6) {
-          const number = Math.floor(Math.random() * 45) + 1;
-
-          if (!numbers.includes(number)) {
-            numbers.push(number);
-          }
-        }
-
-        numbers.sort((a, b) => a - b);
-
-        const row = document.createElement("div");
-        row.className = "lotto-game";
-
-        const label = document.createElement("span");
-        label.className = "game-label";
-        label.textContent = game + "게임";
-        row.appendChild(label);
-
-        numbers.forEach(number => {
-          const ball = document.createElement("div");
-          ball.className = "ball " + getBallColor(number);
-          ball.textContent = number;
-          row.appendChild(ball);
-        });
-
-        board.appendChild(row);
-      }
-    }
-
+    // 로또 번호 구간별 색상
     function getBallColor(number) {
       if (number <= 10) return "yellow";
       if (number <= 20) return "blue";
@@ -176,6 +371,109 @@
       return "green";
     }
 
+    // 1~45 중 중복 없이 6개 번호 생성
+    function generateOneGame() {
+      const numbers = [];
+
+      while (numbers.length < 6) {
+        const number = Math.floor(Math.random() * 45) + 1;
+
+        if (!numbers.includes(number)) {
+          numbers.push(number);
+        }
+      }
+
+      return numbers.sort((a, b) => a - b);
+    }
+
+    // 5게임 생성
+    function generateLotto() {
+      lottoGames = [];
+
+      for (let i = 0; i < 5; i++) {
+        lottoGames.push(generateOneGame());
+      }
+
+      renderGames();
+
+      document.getElementById("notice").innerHTML =
+        "✨ 행운 번호 5게임 생성 완료!<br />" +
+        "마음에 드는 번호를 복사해 보세요 🩷";
+    }
+
+    // 화면에 번호 표시
+    function renderGames() {
+      const gamesContainer = document.getElementById("games");
+      gamesContainer.innerHTML = "";
+
+      lottoGames.forEach((game, index) => {
+        const gameElement = document.createElement("div");
+        gameElement.className = "game";
+        gameElement.style.animationDelay = `${index * 0.06}s`;
+
+        const label = document.createElement("span");
+        label.className = "game-label";
+        label.textContent = String(index + 1).padStart(2, "0");
+
+        const numbers = document.createElement("div");
+        numbers.className = "numbers";
+
+        game.forEach(number => {
+          const ball = document.createElement("span");
+          ball.className = `ball ${getBallColor(number)}`;
+          ball.textContent = number;
+          numbers.appendChild(ball);
+        });
+
+        gameElement.appendChild(label);
+        gameElement.appendChild(numbers);
+        gamesContainer.appendChild(gameElement);
+      });
+    }
+
+    // 생성된 번호 복사
+    async function copyNumbers() {
+      if (lottoGames.length === 0) {
+        document.getElementById("notice").textContent =
+          "먼저 번호 5게임을 생성해 주세요! 🩷";
+        return;
+      }
+
+      const text = lottoGames
+        .map((game, index) =>
+          `${index + 1}게임: ${game.join(", ")}`
+        )
+        .join("\n");
+
+      try {
+        await navigator.clipboard.writeText(text);
+
+        document.getElementById("notice").innerHTML =
+          "📋 번호가 클립보드에 복사되었어요!<br />" +
+          "행운을 빌어요 🩷";
+      } catch (error) {
+        // 클립보드 API를 사용할 수 없는 환경을 위한 대체 방법
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        try {
+          document.execCommand("copy");
+          document.getElementById("notice").textContent =
+            "📋 번호가 복사되었어요! 🩷";
+        } catch (fallbackError) {
+          document.getElementById("notice").textContent =
+            "번호 복사에 실패했어요. 다시 시도해 주세요.";
+        }
+
+        textarea.remove();
+      }
+    }
+
+    // 페이지 접속 시 자동으로 5게임 생성
     generateLotto();
   </script>
 </body>
